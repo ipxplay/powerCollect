@@ -48,8 +48,9 @@ class BaseDevice(object):
         self.update_period = update_period
         self.slave_id = devInfo.get_desk_number()
         self.publish_topic = 'IR829/' + str(self.slave_id) + '/TX'
-        # self.interface = interface.iMQTT('IR829/' + str(self.slave_id) + '/TX', self.name)
+        self.interface = interface.iMQTT('IR829/' + str(self.slave_id) + '/TX', self.name)
         self.powerMeter = PowerMeter()
+        self.result = 0
 
     def update(self):
         buf = []
@@ -59,6 +60,7 @@ class BaseDevice(object):
             buf.append(0)
         try:
             rsp_ = self.client.execute(1, cst.READ_HOLDING_REGISTERS, 2000, 4)
+            logging.info(rsp_)
             # 将读取的tuple 转换为 list 每元素2bytes
             temp_list = list(tuple(rsp_))
             # 拆解2 bytes的list为1 byte的list
@@ -72,7 +74,12 @@ class BaseDevice(object):
             # bytes 转换为 flaot
             self.powerMeter.phaseA_voltage = struct.unpack_from('>f', temp_bytes, 0)[0]
             self.powerMeter.phaseA_current = struct.unpack_from('>f', temp_bytes, 4)[0]
-            logging.info(rsp_)
+
+            if self.powerMeter.phaseA_voltage - 220 <= 10 or  self.powerMeter.phaseA_voltage - 220 >= -10:
+                self.result = 1
+            else:
+                self.result = 0
+
             dev_msg = {
                 "version": "1",
                 "edgeTime": int(time.time()),
@@ -86,7 +93,7 @@ class BaseDevice(object):
                     },
                     "factor": self.powerMeter.Power_factor
                 },
-                "result": 0,
+                "result": self.result,
                 "step": 0,
                 "index": 6
             }
