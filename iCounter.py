@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import serial
-# import modbus_tk
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 import logging
