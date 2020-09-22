@@ -36,7 +36,7 @@ def get_desk_number():
     def get_host_ip():
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(('8.8.8.8', 80))
+            s.connect((get_server_config()["host"], get_server_config()["port"]))
             ip = s.getsockname()[0]
         finally:
             s.close()
