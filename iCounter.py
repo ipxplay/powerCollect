@@ -64,10 +64,10 @@ class BaseDevice(object):
             temp_list = list(tuple(rsp_))
             # 拆解2 bytes的list为1 byte的list
             for i in range(2):
-                buf[i * 4 + 2] = temp_list[i * 2 + 1].to_bytes(2, 'little')[0]
-                buf[i * 4 + 3] = temp_list[i * 2 + 1].to_bytes(2, 'little')[1]
-                buf[i * 4 + 0] = temp_list[i * 2].to_bytes(2, 'little')[0]
-                buf[i * 4 + 1] = temp_list[i * 2].to_bytes(2, 'little')[1]
+                buf[i * 4 + 3] = temp_list[i * 2 + 1].to_bytes(2, 'little')[0]
+                buf[i * 4 + 2] = temp_list[i * 2 + 1].to_bytes(2, 'little')[1]
+                buf[i * 4 + 1] = temp_list[i * 2].to_bytes(2, 'little')[0]
+                buf[i * 4 + 0] = temp_list[i * 2].to_bytes(2, 'little')[1]
             # 将byte list转换为bytes
             temp_bytes = bytes(buf)
             # bytes 转换为 flaot
