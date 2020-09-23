@@ -37,7 +37,7 @@ class BaseDevice(object):
                                                              baudrate=baudrate,
                                                              bytesize=8,
                                                              parity='N',
-                                                             stopbits=1,
+                                                             stopbits=2,
                                                              xonxoff=0))
             self.client.set_timeout(5.0)
             self.client.set_verbose(True)
@@ -58,16 +58,16 @@ class BaseDevice(object):
         for i in range(32):
             buf.append(0)
         try:
-            rsp_ = self.client.execute(1, cst.READ_HOLDING_REGISTERS, 2000, 4)
+            rsp_ = self.client.execute(1, cst.READ_HOLDING_REGISTERS, 8192, 4)
             logging.info(rsp_)
             # 将读取的tuple 转换为 list 每元素2bytes
             temp_list = list(tuple(rsp_))
             # 拆解2 bytes的list为1 byte的list
             for i in range(2):
-                buf[i * 4 + 1] = temp_list[i * 2 + 1].to_bytes(2, 'little')[0]
-                buf[i * 4 + 0] = temp_list[i * 2 + 1].to_bytes(2, 'little')[1]
-                buf[i * 4 + 3] = temp_list[i * 2].to_bytes(2, 'little')[0]
-                buf[i * 4 + 2] = temp_list[i * 2].to_bytes(2, 'little')[1]
+                buf[i * 4 + 2] = temp_list[i * 2 + 1].to_bytes(2, 'little')[0]
+                buf[i * 4 + 3] = temp_list[i * 2 + 1].to_bytes(2, 'little')[1]
+                buf[i * 4 + 0] = temp_list[i * 2].to_bytes(2, 'little')[0]
+                buf[i * 4 + 1] = temp_list[i * 2].to_bytes(2, 'little')[1]
             # 将byte list转换为bytes
             temp_bytes = bytes(buf)
             # bytes 转换为 flaot
