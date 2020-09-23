@@ -43,7 +43,7 @@ def get_desk_number():
         return ip
     try:
         slave_ip = get_host_ip()
-        slave_id = setting['ipTable'][slave_ip]
+        slave_id = slave_ip.split('.')[3]
     except Exception as e:
         slave_id = 255
         logging.error("Can not find salve id which ip is %s!" % slave_ip)
