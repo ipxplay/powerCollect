@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     _dev_array = devInfo.get_dev()
     # 延时等待网络等就绪
-    time.sleep(10)
+    # time.sleep(10)
     for _dev in _dev_array:
         device.append(iCounter.BaseDevice(
             _dev['port'],

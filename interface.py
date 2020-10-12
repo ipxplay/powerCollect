@@ -10,7 +10,7 @@ class iMQTT(object):
         self.topic2publish = topic2publish
         self.client_name = name + "_client"
         self.clientTx = mqtt.Client(self.client_name)
-        self.clientTx.on_connect = self.on_connect
+        # self.clientTx.on_connect = self.on_connect
         self.clientTx.on_message = self.on_message
         self.clientTx.on_disconnect = self.on_disconnected
         server_info = devInfo.get_server_config()
