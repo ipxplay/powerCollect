@@ -100,6 +100,13 @@ class BaseDevice(object):
             # send to mqtt server
             self.interface.send_msg(json.dumps(dev_msg))
         except:
-            print('dev : %s read reg error' % self.name)
+            dev_msg = {
+                "version": "1",
+                "edgeTime": int(time.time()),
+                "msg": "Read registers error!"
+            }
+            logging.error("Data: " + str(dev_msg))
+            # send to mqtt server
+            self.interface.send_msg(json.dumps(dev_msg))
         t = Timer(self.update_period, self.update)
         t.start()
