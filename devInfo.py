@@ -5,7 +5,7 @@ import socket
 import logging
 
 # 获取用户设置
-setting = json.load(open("./config.json", encoding='utf-8'))
+setting = json.load(open("/tools/config.json", encoding='utf-8'))
 
 
 def get_dev():
