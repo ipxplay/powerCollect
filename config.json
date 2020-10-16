@@ -6,8 +6,8 @@
         "report": 1
     },
     "server": {
-        "host":"192.168.90.142",
-        "port": 11883,
+        "host":"10.35.121.253",
+        "port": 60233,
         "user": null,
         "password": null
     },
